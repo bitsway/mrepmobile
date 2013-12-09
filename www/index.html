@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<!-- Designed and developed by Business Solution Apps team v -->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>MRep-Order</title>
+		
+        <link rel="stylesheet" href="static/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.css" />
+        <link rel="stylesheet" href="static/my.css" />
+        <style>/* App custom styles */</style>
+		
+        <script src="static/jquery/1.7.2/jquery.min.js">   </script>
+        <script src="static/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.js">   </script>
+        <script src="static/my.js">  </script>
+		<script type="text/javascript" charset="utf-8" src="cordova.js"></script>		
+    </head>
+	
+    <body>
+		<!--=====================Log in==================-->
+		<div data-role="page" id="pageHome">
+            <div data-theme="a" data-role="header">
+                <a data-role="button" href="#page1" data-icon="gear" data-iconpos="left" class="ui-btn-left">Settings</a>
+                <a data-role="button" href="#pagelogin" class="ui-btn-right" onClick="exit()">Exit</a>
+                <h3>M-Reporting</h3>
+            </div>
+			
+            <div data-role="content">
+				<div id="myerror" style="color:#C00">				
+				</div>
+                
+                <div data-role="fieldcontain">
+                   <a data-role="button" data-transition="slide" onClick="clientList()" data-icon="arrow-r" data-iconpos="right" >Order</a>  
+                   <a data-role="button" data-transition="slide" onClick="getSyncPage()" data-icon="arrow-r" data-iconpos="right" >Sync</a>
+                </div>
+				
+            </div>
+			
+            <div data-theme="a" data-role="footer" style="font-size:12px;background-color:#CCC; color:#E1E1E1;" align="center">m-Reporting</div>
+			
+        </div>
+        
+        <!--===================== pageSync ==================-->
+		<div data-role="page" id="pageSync">
+            <div data-theme="a" data-role="header">
+                <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">
+						Back
+					</a>
+                <h3>Sync</h3>
+            </div>
+			
+            <div data-role="content">
+            	<div id="mySyncError" style="color:#C00"></div>
+                
+            	<ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Route Sync</li>
+				</ul>
+                
+                <div id="routeList"></div>
+                <!--<div data-role="fieldcontain">
+					   <a data-role="button" data-transition="slide" onClick="getClientList()" data-icon="arrow-r" data-iconpos="right" >Sync</a>  
+                 </div>-->
+                <input type="submit" id="routeSync" name="routeSync" value="Sync" >
+                
+                <br>
+				<ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Basic Sync</li>
+				</ul>
+				
+                <label for="cid">CID</label>
+				<input name="cid" id="cid" placeholder="" value="" type="text">	
+                
+				<label for="repid">User ID</label>
+				<input name="repid" id="repid" placeholder="" value="" type="text">	
+				
+				<label for="password">Password </label>
+				<input type="password" name="" id="password" placeholder="" value="">	
+				
+				<input type="submit" id="basicSync" name="basicSync" value="Sync" >
+				
+                <br>
+                <ul data-role="listview" data-divider-theme="b" data-inset="true">
+                    <li data-role="list-divider" role="heading">Clear Sync</li>
+				</ul>
+                <!--<input type="submit" id="clearSync" name="clearSync" value="Clear Sync" > -->
+                <div data-role="fieldcontain">
+					   <a data-role="button" href="#pageHome" class="ui-btn-right" onClick="clearSync()" style="width:100%">Clear Sync</a>
+                 </div>
+                                   
+            </div>
+			
+            <div data-theme="a" data-role="footer" style="font-size:12px;background-color:#CCC; color:#E1E1E1;" align="center">m-Reporting</div>
+		</div>
+	
+    <!-- ===============Client List ================== -->
+        <div data-role="page" id="pageClient" >
+		
+            <div data-theme="a" data-role="header">
+                <a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">Back</a>
+                <h3>Client</h3>
+            </div>
+			
+			<div data-role="content">	
+            		<div id="clientErrMsg" style="color:#FF0000;"></div>
+					
+                    <div id="clientList">
+                    </div>		
+                    		
+            </div>
+            
+            <!--<input name="lat" id="lat" placeholder="" value="" type="hidden">
+             <input name="long" id="long" placeholder="" value="" type="hidden">-->
+            
+            <div data-theme="a" data-role="footer" style="font-size:12px;background-color:#CCC;" align="center" >m-Reporting</div>
+		</div>
+    
+    
+    <!--  ==================== Menu  ========-->
+		<!--<div data-role="page" id="pageMenu">
+				<div data-theme="a" data-role="header">
+					<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">
+						Back
+					</a>
+					<h3>Menu</h3>
+                    
+				</div>
+				<div data-role="content">
+					
+                    <div id="menuListDiv">							
+					</div>
+                    
+					<div data-role="fieldcontain">
+					   <a data-role="button" data-transition="slide" onClick="depotList()" data-icon="arrow-r" data-iconpos="right" >Requisition</a>  
+                       <a data-role="button" data-transition="slide" onClick="" data-icon="arrow-r" data-iconpos="right">Reports</a>
+                    </div>					
+                    <input name="lat" id="lat" placeholder="" value="" type="hidden">
+                    <input name="long" id="long" placeholder="" value="" type="hidden">
+		    	</div>
+		    <div data-theme="a" data-role="footer" style="font-size:12px;background-color:#CCC; color:#E1E1E1;" align="center" >m-Reporting</div>
+		</div>-->
+    
+		
+
+
+
+<!--  ==================== Order  ========-->
+		<div data-role="page" id="pageOrder">
+				<div data-theme="a" data-role="header">
+					<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">
+						Back
+					</a>
+					<h3>Order</h3>
+				</div>
+				<div data-role="content">
+					<div id="ordErrMsg" style="color:#FF0000;"></div>
+					
+                    <div id="clientDiv">							
+					</div>
+                    
+                    <div id="orderListDiv">							
+					</div>
+                    
+                    <div id="itemCountDiv">							
+					</div>
+                    
+					<div data-role="fieldcontain">
+					   <a data-role="button" data-transition="slide" onClick="ordNext()" data-icon="arrow-r" data-iconpos="right">Next ></a>
+                    </div>                    
+		    	</div>
+                <input name="clientID" id="clientID" placeholder="" value="" type="hidden">
+                <input name="clientName" id="clientName" placeholder="" value="" type="hidden">
+                
+                <input name="lat" id="lat" placeholder="" value="" type="hidden">
+                <input name="long" id="long" placeholder="" value="" type="hidden">
+                    
+                
+		    <div data-theme="a" data-role="footer" style="font-size:12px;background-color:#CCC; color:#E1E1E1;" align="center" >m-Reporting</div>
+		</div>
+
+<!--  ==================== Voucher  ========-->
+		<div data-role="page" id="pageVoucher">
+				<div data-theme="a" data-role="header">
+					<a data-role="button" data-rel="back"  data-icon="arrow-l" data-iconpos="left" class="ui-btn-right">
+						Back
+					</a>
+					<h3>Voucher</h3>
+				</div>
+				<div data-role="content">
+                    
+                    <div id="voucherDiv"></div>
+                    
+					<div data-role="fieldcontain">
+					   <a data-role="button" data-transition="slide" onClick="orderSubmit()" data-icon="arrow-r" data-iconpos="right">Submit</a>
+                    </div>
+                    
+                    <input type="hidden" name="voucherItem" id="voucherItem" placeholder="" value="">
+                    
+		    	</div>
+		    <div data-theme="a" data-role="footer" style="font-size:12px;background-color:#CCC; color:#E1E1E1;" align="center" >m-Reporting</div>
+		</div>
+
+
+<!--  ===================== End Page ==============-->  		
+		<div data-role="page" id="pageEnd">
+		    <div data-theme="a" data-role="header">
+		        <h3>Success</h3>
+		    </div>
+	      <div data-role="content">
+		  		<b>Submitted Successfully.</b>
+                <div id="successVno"></div>
+				<ul>
+		    		<li>Prepare New Order or</li>
+                    <li>Exit The Application</li>
+		    	</ul>
+					<!--<a data-role="button" data-transition="slide" data-icon="arrow-l" data-iconpos="left"  onClick="clientList()" >New Order</a>-->
+                    <a data-role="button" data-transition="slide" href="#pageClient" data-icon="arrow-r" data-iconpos="right"  onClick="pageEndNextClient()" >New Order</a>	
+                    <a data-role="button" data-transition="slide" href="#pageHome" data-icon="arrow-r" data-iconpos="right"  onClick="exit()" >Exit</a>		        	
+		    </div>
+			
+		    <div data-theme="a" data-role="footer" style="font-size:12px;background-color:#CCC; color:#E1E1E1;" align="center" > m-Reporting</div>
+		</div>
+		
+<!--============================================================-->		
+
+
+    </body>
+</html>
